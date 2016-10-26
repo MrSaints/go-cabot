@@ -14,7 +14,7 @@ type HTTPChecksService service
 type HTTPCheck struct {
 	StatusCheck
 
-	Endpoint   string `json:"endpoint"`
+	Endpoint   string `json:"endpoint,omitempty"`
 	Username   string `json:"username,omitempty"`
 	Password   string `json:"password,omitempty"`
 	TextMatch  string `json:"text_match,omitempty"`
@@ -58,6 +58,15 @@ func (s *HTTPChecksService) Get(id int) (*HTTPCheck, error) {
 
 func (s *HTTPChecksService) Create(check *HTTPCheck) (*HTTPCheck, error) {
 	req, err := s.client.NewRequest("POST", HTTPChecksEndpoint, check)
+	if err != nil {
+		return nil, err
+	}
+	return s.doSingleHTTPCheck(req)
+}
+
+func (s *HTTPChecksService) Edit(id int, check *HTTPCheck) (*HTTPCheck, error) {
+	u := fmt.Sprintf("%v%v/", HTTPChecksEndpoint, id)
+	req, err := s.client.NewRequest("PATCH", u, check)
 	if err != nil {
 		return nil, err
 	}

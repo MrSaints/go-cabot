@@ -14,9 +14,9 @@ type GraphiteChecksService service
 type GraphiteCheck struct {
 	StatusCheck
 
-	Metric             string `json:"metric"`
-	CheckType          string `json:"check_type"`
-	Value              string `json:"value"`
+	Metric             string `json:"metric,omitempty"`
+	CheckType          string `json:"check_type,omitempty"`
+	Value              string `json:"value,omitempty"`
 	ExpectedNumHosts   int    `json:"expected_num_hosts,omitempty"`
 	AllowedNumFailures int    `json:"allowed_num_failures,omitempty"`
 }
@@ -56,6 +56,15 @@ func (s *GraphiteChecksService) Get(id int) (*GraphiteCheck, error) {
 
 func (s *GraphiteChecksService) Create(check *GraphiteCheck) (*GraphiteCheck, error) {
 	req, err := s.client.NewRequest("POST", GraphiteChecksEndpoint, check)
+	if err != nil {
+		return nil, err
+	}
+	return s.doSingleGraphiteCheck(req)
+}
+
+func (s *GraphiteChecksService) Edit(id int, check *GraphiteCheck) (*GraphiteCheck, error) {
+	u := fmt.Sprintf("%v%v/", GraphiteChecksEndpoint, id)
+	req, err := s.client.NewRequest("PATCH", u, check)
 	if err != nil {
 		return nil, err
 	}

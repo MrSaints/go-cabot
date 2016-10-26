@@ -7,13 +7,13 @@ const (
 type StatusChecksService service
 
 type StatusCheck struct {
-	Active           bool       `json:"active"`
-	CalculatedStatus Status     `json:"calculated_status"`
+	Active           bool       `json:"active,omitempty"`
+	CalculatedStatus Status     `json:"calculated_status,omitempty"`
 	Debounce         int        `json:"debounce,omitempty"`
-	Frequency        int        `json:"frequency"`
-	ID               int        `json:"id"`
-	Importance       Importance `json:"importance"`
-	Name             string     `json:"name"`
+	Frequency        int        `json:"frequency,omitempty"`
+	ID               int        `json:"id,omitempty"`
+	Importance       Importance `json:"importance,omitempty"`
+	Name             string     `json:"name,omitempty"`
 }
 
 //go:generate jsonenums -type=Importance

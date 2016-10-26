@@ -12,14 +12,14 @@ const (
 type InstancesService service
 
 type Instance struct {
-	Address       string `json:"address"`
-	Alerts        []int  `json:"alerts"`
-	AlertsEnabled bool   `json:"alerts_enabled"`
-	ID            int    `json:"id"`
-	Name          string `json:"name"`
-	OverallStatus string `json:"overall_status"`
-	StatusChecks  []int  `json:"status_checks"`
-	UsersToNotify []int  `json:"users_to_notify"`
+	Address       string `json:"address,omitempty"`
+	Alerts        []int  `json:"alerts,omitempty"`
+	AlertsEnabled bool   `json:"alerts_enabled,omitempty"`
+	ID            int    `json:"id,omitempty"`
+	Name          string `json:"name,omitempty"`
+	OverallStatus string `json:"overall_status,omitempty"`
+	StatusChecks  []int  `json:"status_checks,omitempty"`
+	UsersToNotify []int  `json:"users_to_notify,omitempty"`
 }
 
 func (s *InstancesService) List() ([]*Instance, error) {
@@ -57,6 +57,15 @@ func (s *InstancesService) Get(id int) (*Instance, error) {
 
 func (s *InstancesService) Create(instance *Instance) (*Instance, error) {
 	req, err := s.client.NewRequest("POST", InstancesEndpoint, instance)
+	if err != nil {
+		return nil, err
+	}
+	return s.doSingleInstance(req)
+}
+
+func (s *InstancesService) Edit(id int, instance *Instance) (*Instance, error) {
+	u := fmt.Sprintf("%v%v/", InstancesEndpoint, id)
+	req, err := s.client.NewRequest("PATCH", u, instance)
 	if err != nil {
 		return nil, err
 	}

@@ -12,15 +12,15 @@ const (
 type ServicesService service
 
 type Service struct {
-	Alerts        []int  `json:"alerts"`
-	AlertsEnabled bool   `json:"alerts_enabled"`
-	ID            int    `json:"id"`
-	Instances     []int  `json:"instances"`
-	Name          string `json:"name"`
-	OverallStatus string `json:"overall_status"`
-	StatusChecks  []int  `json:"status_checks"`
-	URL           string `json:"url"`
-	UsersToNotify []int  `json:"users_to_notify"`
+	Alerts        []int  `json:"alerts,omitempty"`
+	AlertsEnabled bool   `json:"alerts_enabled,omitempty"`
+	ID            int    `json:"id,omitempty"`
+	Instances     []int  `json:"instances,omitempty"`
+	Name          string `json:"name,omitempty"`
+	OverallStatus string `json:"overall_status,omitempty"`
+	StatusChecks  []int  `json:"status_checks,omitempty"`
+	URL           string `json:"url,omitempty"`
+	UsersToNotify []int  `json:"users_to_notify,omitempty"`
 }
 
 func (s *ServicesService) List() ([]*Service, error) {
@@ -58,6 +58,15 @@ func (s *ServicesService) Get(id int) (*Service, error) {
 
 func (s *ServicesService) Create(service *Service) (*Service, error) {
 	req, err := s.client.NewRequest("POST", ServicesEndpoint, service)
+	if err != nil {
+		return nil, err
+	}
+	return s.doSingleService(req)
+}
+
+func (s *ServicesService) Edit(id int, service *Service) (*Service, error) {
+	u := fmt.Sprintf("%v%v/", ServicesEndpoint, id)
+	req, err := s.client.NewRequest("PATCH", u, service)
 	if err != nil {
 		return nil, err
 	}

@@ -58,6 +58,15 @@ func (s *JenkinsChecksService) Create(check *JenkinsCheck) (*JenkinsCheck, error
 	return s.doSingleJenkinsCheck(req)
 }
 
+func (s *JenkinsChecksService) Edit(id int, check *JenkinsCheck) (*JenkinsCheck, error) {
+	u := fmt.Sprintf("%v%v/", JenkinsChecksEndpoint, id)
+	req, err := s.client.NewRequest("PATCH", u, check)
+	if err != nil {
+		return nil, err
+	}
+	return s.doSingleJenkinsCheck(req)
+}
+
 func (s *JenkinsChecksService) Delete(id int) error {
 	u := fmt.Sprintf("%v%v/", JenkinsChecksEndpoint, id)
 	req, err := s.client.NewRequest("DELETE", u, nil)

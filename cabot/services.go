@@ -63,3 +63,16 @@ func (s *ServicesService) Create(service *Service) (*Service, error) {
 	}
 	return s.doSingleService(req)
 }
+
+func (s *ServicesService) Delete(id int) error {
+	u := fmt.Sprintf("%v%v/", ServicesEndpoint, id)
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return err
+	}
+	err = s.client.Do(req, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}

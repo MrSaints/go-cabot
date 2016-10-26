@@ -62,3 +62,16 @@ func (s *InstancesService) Create(instance *Instance) (*Instance, error) {
 	}
 	return s.doSingleInstance(req)
 }
+
+func (s *InstancesService) Delete(id int) error {
+	u := fmt.Sprintf("%v%v/", InstancesEndpoint, id)
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return err
+	}
+	err = s.client.Do(req, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}

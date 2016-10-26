@@ -55,3 +55,16 @@ func (s *ICMPChecksService) Create(check *ICMPCheck) (*ICMPCheck, error) {
 	}
 	return s.doSingleICMPCheck(req)
 }
+
+func (s *ICMPChecksService) Delete(id int) error {
+	u := fmt.Sprintf("%v%v/", ICMPChecksEndpoint, id)
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return err
+	}
+	err = s.client.Do(req, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}

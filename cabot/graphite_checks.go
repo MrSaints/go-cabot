@@ -61,3 +61,16 @@ func (s *GraphiteChecksService) Create(check *GraphiteCheck) (*GraphiteCheck, er
 	}
 	return s.doSingleGraphiteCheck(req)
 }
+
+func (s *GraphiteChecksService) Delete(id int) error {
+	u := fmt.Sprintf("%v%v/", GraphiteChecksEndpoint, id)
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return err
+	}
+	err = s.client.Do(req, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}

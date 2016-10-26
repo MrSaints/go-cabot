@@ -63,3 +63,16 @@ func (s *HTTPChecksService) Create(check *HTTPCheck) (*HTTPCheck, error) {
 	}
 	return s.doSingleHTTPCheck(req)
 }
+
+func (s *HTTPChecksService) Delete(id int) error {
+	u := fmt.Sprintf("%v%v/", HTTPChecksEndpoint, id)
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return err
+	}
+	err = s.client.Do(req, nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}

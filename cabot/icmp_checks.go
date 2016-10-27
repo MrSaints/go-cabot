@@ -56,7 +56,7 @@ func (s *ICMPChecksService) Create(check *ICMPCheck) (*ICMPCheck, error) {
 	return s.doSingleICMPCheck(req)
 }
 
-func (s *ICMPChecksService) Edit(id int, check *ICMPCheck) (*ICMPCheck, error) {
+func (s *ICMPChecksService) Update(id int, check *ICMPCheck) (*ICMPCheck, error) {
 	u := fmt.Sprintf("%v%v/", ICMPChecksEndpoint, id)
 	req, err := s.client.NewRequest("PATCH", u, check)
 	if err != nil {

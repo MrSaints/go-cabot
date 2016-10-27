@@ -64,7 +64,7 @@ func (s *ServicesService) Create(service *Service) (*Service, error) {
 	return s.doSingleService(req)
 }
 
-func (s *ServicesService) Edit(id int, service *Service) (*Service, error) {
+func (s *ServicesService) Update(id int, service *Service) (*Service, error) {
 	u := fmt.Sprintf("%v%v/", ServicesEndpoint, id)
 	req, err := s.client.NewRequest("PATCH", u, service)
 	if err != nil {

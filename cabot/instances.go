@@ -63,7 +63,7 @@ func (s *InstancesService) Create(instance *Instance) (*Instance, error) {
 	return s.doSingleInstance(req)
 }
 
-func (s *InstancesService) Edit(id int, instance *Instance) (*Instance, error) {
+func (s *InstancesService) Update(id int, instance *Instance) (*Instance, error) {
 	u := fmt.Sprintf("%v%v/", InstancesEndpoint, id)
 	req, err := s.client.NewRequest("PATCH", u, instance)
 	if err != nil {

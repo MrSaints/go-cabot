@@ -58,7 +58,7 @@ func (s *JenkinsChecksService) Create(check *JenkinsCheck) (*JenkinsCheck, error
 	return s.doSingleJenkinsCheck(req)
 }
 
-func (s *JenkinsChecksService) Edit(id int, check *JenkinsCheck) (*JenkinsCheck, error) {
+func (s *JenkinsChecksService) Update(id int, check *JenkinsCheck) (*JenkinsCheck, error) {
 	u := fmt.Sprintf("%v%v/", JenkinsChecksEndpoint, id)
 	req, err := s.client.NewRequest("PATCH", u, check)
 	if err != nil {

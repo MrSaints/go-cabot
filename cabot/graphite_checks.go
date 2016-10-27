@@ -62,7 +62,7 @@ func (s *GraphiteChecksService) Create(check *GraphiteCheck) (*GraphiteCheck, er
 	return s.doSingleGraphiteCheck(req)
 }
 
-func (s *GraphiteChecksService) Edit(id int, check *GraphiteCheck) (*GraphiteCheck, error) {
+func (s *GraphiteChecksService) Update(id int, check *GraphiteCheck) (*GraphiteCheck, error) {
 	u := fmt.Sprintf("%v%v/", GraphiteChecksEndpoint, id)
 	req, err := s.client.NewRequest("PATCH", u, check)
 	if err != nil {

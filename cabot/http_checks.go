@@ -64,7 +64,7 @@ func (s *HTTPChecksService) Create(check *HTTPCheck) (*HTTPCheck, error) {
 	return s.doSingleHTTPCheck(req)
 }
 
-func (s *HTTPChecksService) Edit(id int, check *HTTPCheck) (*HTTPCheck, error) {
+func (s *HTTPChecksService) Update(id int, check *HTTPCheck) (*HTTPCheck, error) {
 	u := fmt.Sprintf("%v%v/", HTTPChecksEndpoint, id)
 	req, err := s.client.NewRequest("PATCH", u, check)
 	if err != nil {

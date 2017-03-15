@@ -1,5 +1,10 @@
 package cabot
 
+import (
+	"github.com/pkg/errors"
+	"strings"
+)
+
 const (
 	StatusChecksEndpoint = "/api/status_checks/"
 )
@@ -17,15 +22,35 @@ type StatusCheck struct {
 }
 
 //go:generate jsonenums -type=Importance
+//go:generate stringer -type=Importance
 type Importance byte
 
 const (
-	WARNING Importance = iota
+	_ Importance = iota
+	WARNING
 	ERROR
 	CRITICAL
 )
 
+func ImportanceStringToConst(s string) (Importance, error) {
+	if v, ok := _ImportanceNameToValue[s]; ok {
+		return v, nil
+	}
+
+	keys := make([]string, 0, len(_ImportanceNameToValue))
+	for k := range _ImportanceNameToValue {
+		keys = append(keys, k)
+	}
+
+	return 0, errors.Errorf(
+		"invalid importance: %s (available options: %s)",
+		s,
+		strings.Join(keys, ", "),
+	)
+}
+
 //go:generate jsonenums -type=Status
+//go:generate stringer -type=Status
 type Status byte
 
 const (

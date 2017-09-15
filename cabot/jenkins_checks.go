@@ -15,6 +15,7 @@ type JenkinsCheck struct {
 	StatusCheck
 
 	MaxQueuedBuildTime int `json:"max_queued_build_time,omitempty"`
+	JenkinsConfig      int `json:"jenkins_config"`
 }
 
 func (s *JenkinsChecksService) List() ([]*JenkinsCheck, error) {
